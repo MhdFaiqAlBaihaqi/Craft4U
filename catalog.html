@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Craft4U - Catalog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* GLOBAL RESET & FONTS (Diambil dari contact.html) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif; /* Mengubah font utama */
+      background-color: var(--page-bg);
+      min-height: 100vh;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    :root {
+      --nav-bg: #C2A98B;
+      --btn: #DB4444;
+      --page-bg: #FCF0E8;
+      --text: #2b2b2b;
+      --card: #ffffff;
+      --footer-bg: #B8936E;
+    }
+
+    /* NAVBAR STYLES (Diambil persis dari contact.html) */
+     nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: var(--nav-bg);
+        padding: 16px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    nav .logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: #3E2C23;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    nav .logo img {
+        width: 30px;
+        height: auto;
+        display: none; 
+    }
+
+    nav ul {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+    }
+
+    nav ul li a {
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 500;
+        font-size: 16px;
+        transition: color 0.3s;
+    }
+    
+    nav ul li a:hover {
+        color: #fff;
+    }
+
+    .nav-right {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+
+    .search {
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid transparent;
+        outline: none;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        background: rgba(255, 255, 255, 0.6);
+    }
+    
+    .search:focus {
+        background: #fff;
+        border-color: var(--text);
+    }
+
+    /* CATALOG SECTION STYLES (Dipertahankan dari catalog.html asli) */
+    section {
+      padding: 120px 60px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section-title {
+      margin-bottom: 20px;
+    }
+
+    .section-title small {
+      color: var(--btn);
+      font-weight: 600;
+    }
+
+    .section-title h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      margin-top: 8px;
+    }
+
+    /* WRAPPER */
+    .catalog-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* PRODUCT GRID */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto; 
+      gap: 24px;
+      width: 100%;
+      min-height: 600px;
+    }
+
+    /* PRODUCT CARD */
+    .product-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+      transition: .3s;
+      width: 100%; 
+      max-width: 280px;
+      height: fit-content;
+      margin: 0 auto; 
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .product-img {
+      width: 100%;
+      height: 160px;
+      border-radius: 10px;
+      background: #FCF0E8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .product-card h4 {
+      margin: 12px 0 4px;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 600; /* Sedikit ditebalkan agar cocok dengan Poppins */
+    }
+
+    .price {
+      color: var(--btn);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .btn {
+      margin-top: 12px;
+      width: 100%;
+      background: var(--btn);
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Poppins', sans-serif; /* Menyesuaikan font button */
+      font-weight: 500;
+    }
+
+    /* NAV ARROWS */
+    .nav-arrow {
+      background: var(--btn);
+      color: white;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: 0.3s;
+    }
+
+    .nav-arrow:hover {
+      background: #b03535;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .nav-arrow:disabled {
+      background: #e0e0e0;
+      color: #999;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: translateY(-50%);
+    }
+
+    .prev-btn { left: -60px; }
+    .next-btn { right: -60px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .prev-btn { left: -40px; }
+      .next-btn { right: -40px; }
+    }
+
+    @media (max-width: 768px) {
+      /* Gaya Responsive Navbar dari contact.html */
+      nav {
+        padding: 12px 20px;
+      }
+      nav ul {
+        display: none; /* Menyembunyikan menu di tablet/mobile */
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .section-title h2 { font-size: 28px; }
+      section { padding: 100px 30px; }
+    }
+
+    @media (max-width: 480px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+      .prev-btn, .next-btn {
+        width: 36px; height: 36px; font-size: 16px;
+      }
+      .prev-btn { left: -15px; }
+      .next-btn { right: -15px; }
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--footer-bg);
+      padding: 50px 60px;
+      margin-top: 80px;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .footer-content p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #444;
+      margin-bottom: 8px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin: 30px 0 20px;
+    }
+
+    .social-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .social-icon:hover {
+      background: rgba(255, 255, 255, 0.5);
+      transform: translateY(-3px);
+    }
+
+    .social-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .footer-bottom {
+      font-size: 13px;
+      color: #555;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">Craft4U</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Catalog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <input class="search" id="searchInput" placeholder="What are you looking for?" />
+    </div>
+  </nav>
+
+  <section>
+    <div class="section-title">
+      <small>Our Products</small>
+      <h2>Explore Our Products</h2>
+    </div>
+
+    <div class="catalog-wrapper">
+      <button class="nav-arrow prev-btn" id="prevBtn" onclick="changePage(-1)">&#10094;</button>
+
+      <div class="product-grid" id="productContainer">
+        
+        <div class="product-card" data-name="ganci cermin pretzel">
+          <div class="product-img"><img src="Image/ganci cermin 2.png" alt="Pretzel"></div>
+          <h4>Ganci Cermin (Pretzel)</h4>
+          <div class="price">Rp 25.000</div>
+          <button class="btn">View Product</button>
+        </div>
+
+        <div class="product-card" data-name="ganci cermin tulip">
+          <div class="product-img"><img src="Image/ganci cermin 1.png" alt="Tulip"></div>
+          <h4>Ganci Cermin (Tulip)</h4>
+          <div class="price">Rp 25.000</div>
+          <button class="btn">View Product</button>
+        </div>
+
+        <div class="product-card" data-name="ganci cermin donut">
+          <div class="product-img"><img src="Image/ganci cermin 5.png" alt="Donut"></div>
+          <h4>Ganci Cermin (Donut)</h4>
+          <div class="price">Rp 25.000</div>
+          <button class="btn">View Product</button>
+        </div>
+
+        <div class="product-card" data-name="ganci cermin cherry">
+          <div class="product-img"><img src="Image/ganci cermin 4.png" alt="Cherry"></div>
+          <h4>Ganci Cermin (Cherry)</h4>
+          <div class="price">Rp 25.000</div>
+          <button class="btn">View Product</button>
+        </div>
+
+        <div class="product-card" data-name="ganci baru 1">
+          <div class="product-img"><img src="Image/ganci cermin 3.png" alt="Sunny"></div>
+          <h4>Ganci Cermin (Sunny)</h4>
+          <div class="price">Rp 25.000</div>
+          <button class="btn">View Product</button>
+        </div>
+
+        <div class="product-card" data-name="ganci monci pink">
+          <div class="product-img"><img src="Image/ganci monster pink.png" alt="Pink"></div>
+          <h4>Ganci Monci Pink</h4>
+          <div class="price">Rp 5.000</div>
+          <button class="btn">View Product</button>
+        </div>
+
+        <div class="product-card" data-name="ganci monci hitam">
+          <div class="product-img"><img src="Image/ganci monster itam.png" alt="Hitam"></div>
+          <h4>Ganci Monci Hitam</h4>
+          <div class="price">Rp 5.000</div>
+          <button class="btn">View Product</button>
+        </div>
+
+        <div class="product-card" data-name="ganci pita kuning">
+          <div class="product-img"><img src="Image/ganci pita kuning.png" alt="Kuning"></div>
+          <h4>Ganci Pita Kuning</h4>
+          <div class="price">Rp 5.000</div>
+          <button class="btn">View Product</button>
+        </div>
+
+        <div class="product-card" data-name="ganci pita ungu">
+          <div class="product-img"><img src="Image/ganci pita ungu.png" alt="Ungu"></div>
+          <h4>Ganci Pita Ungu</h4>
+          <div class="price">Rp 5.000</div>
+          <button class="btn">View Product</button>
+        </div>
+      </div>
+
+      <button class="nav-arrow next-btn" id="nextBtn" onclick="changePage(1)">&#10095;</button>
+    </div>
+  </section>
+
+  <script>
+    const itemsPerPage = 8; 
+    let currentPage = 1;
+    let filteredCards = []; 
+
+    const allCards = Array.from(document.querySelectorAll('.product-card'));
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const searchInput = document.getElementById('searchInput');
+
+    function init() {
+      filteredCards = allCards;
+      updateDisplay();
+    }
+
+    searchInput.addEventListener('keyup', (e) => {
+      const keyword = e.target.value.toLowerCase().trim();
+      
+      filteredCards = allCards.filter(card => {
+        const name = card.getAttribute('data-name').toLowerCase();
+        return name.includes(keyword);
+      });
+
+      currentPage = 1;
+      updateDisplay();
+    });
+
+    function changePage(direction) {
+      const totalPages = Math.ceil(filteredCards.length / itemsPerPage);
+      currentPage += direction;
+
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      const totalPages = Math.ceil(filteredCards.length / itemsPerPage);
+
+      allCards.forEach(card => card.style.display = 'none');
+
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+
+      const cardsToShow = filteredCards.slice(startIndex, endIndex);
+      
+      cardsToShow.forEach(card => {
+        card.style.display = 'block'; 
+      });
+
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage >= totalPages || totalPages === 0;
+
+      if (filteredCards.length <= itemsPerPage) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+      } else {
+        prevBtn.style.display = 'flex';
+        nextBtn.style.display = 'flex';
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+
+  </script>
+<footer>
+    <div class="footer-content">
+      <h3>Craft4U</h3>
+      <p>Jl. Bukit Pasir, Tangkerang Tim. Kota Pekanbaru, Tenayan Raya, Riau.</p>
+      <p>Telp: 0851-6548-7726</p>
+      <p>Email: gaelonly@gmail.com</p>
+
+      <div class="social-icons">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </div>
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </div>
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>Homepage for your information</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
